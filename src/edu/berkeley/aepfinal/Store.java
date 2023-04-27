@@ -32,4 +32,12 @@ public class Store {
     public void removeItem(Item item) {
         items.remove(item);
     }
+
+    public void addStock(Item item, int newStock) {
+        if (items.containsKey(item)) {
+            items.put(item, items.get(item) + newStock);
+        } else {
+            items.put(item, newStock);
+        }
+    }
 }

@@ -7,13 +7,16 @@ import static org.junit.Assert.*;
 public class StoreManagementTest {
 
     static StoreManagement stores = new StoreManagement();
+    static Store Costco = new Store("Costco", "Berkeley");
+    static Store WholeFoods = new Store("Whole Foods", "Alameda");
+    static Store Safeway = new Store("Safeway", "Albany");
+    static Item eggs = new Item("Eggs", 10.0);
+    static Item apples = new Item("Apples", 5.0);
 
     static {
-        stores.addStore("Costco", "Berkeley");
-        stores.addStore("Safeway", "Albany");
-        stores.addStore("Whole Foods", "Alameda");
-
-
+        stores.addStore("Costco", Costco);
+        stores.addStore("Safeway", WholeFoods);
+        stores.addStore("Whole Foods", Safeway);
     }
 
     @Test
@@ -23,17 +26,22 @@ public class StoreManagementTest {
 
     @Test
     public void costcoShouldContainFiveApples() {
-        Item item = new Item("apple", 10.0);
-        stores.addItemToStore("Costco", item, 5);
-        assertEquals(5, stores.storeContainsItem("Costco", item));
+        stores.addItemToStore("Costco", apples, 5);
+        assertEquals(5, stores.storeContainsItem("Costco", apples));
     }
 
     @Test
     public void costcoShouldNotContainEggs() {
-        Item item = new Item("eggs", 10.0);
-        stores.addItemToStore("Costco", item, 10);
-        stores.removeItemFromStore("Costco", item);
-        assertEquals(0, stores.storeContainsItem("Costco", item));
+        stores.addItemToStore("Costco", eggs, 10);
+        stores.removeItemFromStore("Costco", eggs);
+        assertEquals(0, stores.storeContainsItem("Costco", eggs));
+    }
+
+    @Test
+    public void wholeFoodsShouldContainFifteenEggs() {
+        stores.addItemToStore("Whole Foods", eggs, 5);
+        stores.updateStockInStore("Whole Foods", eggs, 10);
+        assertEquals(15, stores.getStores().get("Whole Foods").getStock(eggs));
     }
 
 }

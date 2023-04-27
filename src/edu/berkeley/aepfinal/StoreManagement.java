@@ -17,8 +17,8 @@ public class StoreManagement {
         }
         return false;
     }
-    public void addStore(String name, String address) {
-        stores.put(name, new Store(name, address));
+    public void addStore(String name, Store store) {
+        stores.put(name, store);
     }
 
     public void addItemToStore(String storeName, Item item, int stock) {
@@ -43,5 +43,13 @@ public class StoreManagement {
             throw new IllegalArgumentException("Store not found: " + storeName);
         }
         store.removeItem(item);
+    }
+
+    public void updateStockInStore(String storeName, Item item, int newStock) {
+        Store store = stores.get(storeName);
+        if (store == null) {
+            throw new IllegalArgumentException("Store not found: " + storeName);
+        }
+        store.addStock(item, newStock);
     }
 }
