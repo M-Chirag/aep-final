@@ -16,4 +16,17 @@ public class Store {
         this.items = new HashMap<>();
         this.revenue = 0.0;
     }
+
+    public void addItem(Item item, int stock) {
+        if (items.containsKey(item)) {
+            items.put(item, items.get(item) + stock);
+        } else {
+            items.put(item, stock);
+        }
+    }
+
+    public int getStock(Item item) {
+        return items.getOrDefault(item, 0);
+    }
+
 }
