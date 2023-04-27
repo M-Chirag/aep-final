@@ -29,4 +29,7 @@ public class Store {
         return items.getOrDefault(item, 0);
     }
 
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
 }

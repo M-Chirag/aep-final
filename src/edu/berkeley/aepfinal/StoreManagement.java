@@ -4,7 +4,6 @@ import java.util.*;
 public class StoreManagement {
     private Map<String, Store> stores;
 
-
     public StoreManagement() {
         stores = new HashMap<>();
     }
@@ -38,4 +37,11 @@ public class StoreManagement {
         return stores.get(storeName).getStock(item);
     }
 
+    public void removeItemFromStore(String storeName, Item item) {
+        Store store = stores.get(storeName);
+        if (store == null) {
+            throw new IllegalArgumentException("Store not found: " + storeName);
+        }
+        store.removeItem(item);
+    }
 }

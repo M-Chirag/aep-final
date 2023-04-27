@@ -28,4 +28,12 @@ public class StoreManagementTest {
         assertEquals(5, stores.storeContainsItem("Costco", item));
     }
 
+    @Test
+    public void costcoShouldNotContainEggs() {
+        Item item = new Item("eggs", 10.0);
+        stores.addItemToStore("Costco", item, 10);
+        stores.removeItemFromStore("Costco", item);
+        assertEquals(0, stores.storeContainsItem("Costco", item));
+    }
+
 }
