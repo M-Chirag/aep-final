@@ -70,22 +70,38 @@ public class StoreManagement {
         return store.getTopSellingItems(n);
     }
 
-    public List<Item> getTopSellingItemsAcrossStores(int n) {
+
+    public List<Item> getTopSellingItemsAcrossStores(int n, boolean sortByRevenue) {
+        List<Item> topSellingItems = new ArrayList<>();
         Map<Item, Integer> itemSaleCounts = new HashMap<>();
+        Map<Item, Double> itemRevenues = new HashMap<>();
         for (Store store : stores.values()) {
             for (Map.Entry<Customer, Map<Item, Integer>> entry : store.getSales().entrySet()) {
                 for (Map.Entry<Item, Integer> saleEntry : entry.getValue().entrySet()) {
                     Item item = saleEntry.getKey();
-                    int count = saleEntry.getValue();
-                    itemSaleCounts.put(item, itemSaleCounts.getOrDefault(item, 0) + count);
+                    int saleCount = saleEntry.getValue();
+                    double revenue = saleCount * item.getPrice();
+                    itemSaleCounts.put(item, itemSaleCounts.getOrDefault(item, 0) + saleCount);
+                    itemRevenues.put(item, itemRevenues.getOrDefault(item, 0.0) + revenue);
                 }
             }
         }
 
-        List<Item> topSellingItems = new ArrayList<>(itemSaleCounts.keySet());
-        topSellingItems.sort((item1, item2) -> itemSaleCounts.get(item2).compareTo(itemSaleCounts.get(item1)));
+        List<Map.Entry<Item, Integer>> itemSaleCountEntries = new ArrayList<>(itemSaleCounts.entrySet());
+        List<Map.Entry<Item, Double>> itemRevenueEntries = new ArrayList<>(itemRevenues.entrySet());
+
+        if (sortByRevenue) {
+            itemRevenueEntries.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+            for (Map.Entry<Item, Double> entry : itemRevenueEntries) {
+                topSellingItems.add(entry.getKey());
+            }
+        } else {
+            itemSaleCountEntries.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+            for (Map.Entry<Item, Integer> entry : itemSaleCountEntries) {
+                topSellingItems.add(entry.getKey());
+            }
+        }
 
         return topSellingItems.subList(0, Math.min(n, topSellingItems.size()));
     }
-
 }
