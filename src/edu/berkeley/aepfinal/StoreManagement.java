@@ -70,4 +70,22 @@ public class StoreManagement {
         return store.getTopSellingItems(n);
     }
 
+    public List<Item> getTopSellingItemsAcrossStores(int n) {
+        Map<Item, Integer> itemSaleCounts = new HashMap<>();
+        for (Store store : stores.values()) {
+            for (Map.Entry<Customer, Map<Item, Integer>> entry : store.getSales().entrySet()) {
+                for (Map.Entry<Item, Integer> saleEntry : entry.getValue().entrySet()) {
+                    Item item = saleEntry.getKey();
+                    int count = saleEntry.getValue();
+                    itemSaleCounts.put(item, itemSaleCounts.getOrDefault(item, 0) + count);
+                }
+            }
+        }
+
+        List<Item> topSellingItems = new ArrayList<>(itemSaleCounts.keySet());
+        topSellingItems.sort((item1, item2) -> itemSaleCounts.get(item2).compareTo(itemSaleCounts.get(item1)));
+
+        return topSellingItems.subList(0, Math.min(n, topSellingItems.size()));
+    }
+
 }

@@ -12,6 +12,10 @@ public class Item {
         return price;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Item(String name, double price) {
         this.name = name;
         this.price = price;
@@ -29,4 +33,6 @@ public class Item {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+
 }

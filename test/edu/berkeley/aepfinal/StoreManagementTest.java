@@ -19,8 +19,17 @@ public class StoreManagementTest {
 
     static {
         stores.addStore("Costco", Costco);
-        stores.addStore("Safeway", WholeFoods);
-        stores.addStore("Whole Foods", Safeway);
+        stores.addStore("Whole Foods", WholeFoods);
+        stores.addStore("Safeway", Safeway);
+
+        stores.addItemToStore("Costco", apples, 10);
+        stores.addItemToStore("Costco", bread, 5);
+        stores.addItemToStore("Costco", eggs, 10);
+        stores.addItemToStore("Safeway", cakes, 10);
+        stores.addItemToStore("Safeway", apples, 20);
+        stores.addItemToStore("Safeway", bread, 5);
+        stores.addItemToStore("Whole Foods", eggs, 5);
+        stores.addItemToStore("Whole Foods", bread, 10);
     }
 
     @Test
@@ -29,45 +38,37 @@ public class StoreManagementTest {
     }
 
     @Test
-    public void costcoShouldContainFiveApples() {
-        stores.addItemToStore("Costco", apples, 5);
-        assertEquals(5, stores.storeContainsItem("Costco", apples));
+    public void costcoShouldContainTenApples() {
+        assertEquals(10, stores.storeContainsItem("Costco", apples));
     }
 
     @Test
     public void costcoShouldNotContainEggs() {
-        stores.addItemToStore("Costco", eggs, 10);
         stores.removeItemFromStore("Costco", eggs);
         assertEquals(0, stores.storeContainsItem("Costco", eggs));
     }
 
     @Test
     public void wholeFoodsShouldContainFifteenEggs() {
-        stores.addItemToStore("Whole Foods", eggs, 5);
         stores.updateStockInStore("Whole Foods", eggs, 10);
         assertEquals(15, stores.getStores().get("Whole Foods").getStock(eggs));
     }
 
     @Test
-    public void safewayShouldHaveThreeCakesAfterPurchase() {
-        stores.addItemToStore("Safeway", cakes, 5);
-        stores.purchaseItem("Safeway", "Gordon", "Ramsy", cakes, 2);
-        assertEquals(3, stores.storeContainsItem("Safeway", cakes));
+    public void safewayShouldHaveEightCakesAfterPurchase() {
+        stores.purchaseItem("Safeway", "Gordon", "Ramsay", cakes, 2);
+        assertEquals(8, stores.storeContainsItem("Safeway", cakes));
     }
 
     @Test
-    public void safewayTotalRevenueShouldBe70() {
-        stores.addItemToStore("Safeway", cakes, 5);
-        stores.addItemToStore("Safeway", apples, 10);
-        stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 3);
-        stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 7);
-        assertEquals(70.0, stores.getStores().get("Safeway").getRevenue(),0.01);
+    public void costcoTotalRevenueShouldBe64() {
+        stores.purchaseItem("Costco", "Michael", "Scott", bread, 3);
+        stores.purchaseItem("Costco", "Jim", "Halpert", apples, 7);
+        assertEquals(64.0, stores.getStores().get("Safeway").getRevenue(),0.01);
     }
 
     @Test
-    public void testGetTopSellingItems() {
-        stores.addItemToStore("Safeway", cakes, 5);
-        stores.addItemToStore("Safeway", apples, 10);
+    public void topSellingItemsInSafewayShouldBeCakesAndApples() {
         // Make two sales of item1 and one sale of item2
         stores.purchaseItem("Safeway", "Michael", "Scott", apples, 1);
         stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 1);
@@ -75,8 +76,25 @@ public class StoreManagementTest {
 
         // Get the top selling items and check that they are in the correct order
         List<Item> topSellingItems = stores.getTopSellingItemInStore("Safeway", 2);
-        assertEquals(apples, topSellingItems.get(0));
-        assertEquals(cakes, topSellingItems.get(1));
+        assertEquals(apples.getName(), topSellingItems.get(0).getName());
+        assertEquals(cakes.getName(), topSellingItems.get(1).getName());
+    }
+
+    @Test
+    public void testGetTopSellingItemsAmongAllStores() {
+        // Make some sales in each store
+        stores.purchaseItem("Whole Foods", "John", "Doe", bread, 2);
+        stores.purchaseItem("Whole Foods", "John", "Doe", eggs, 3);
+        stores.purchaseItem("Whole Foods", "Jane", "Doe", bread, 1);
+        stores.purchaseItem("Safeway", "Michael", "Scott", bread, 2);
+        stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 1);
+        stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 1);
+
+        // Geting the top selling items among all stores and check that they are in the correct order
+        List<Item> topSellingItems = stores.getTopSellingItemsAcrossStores(3);
+        assertEquals(bread.getName(), topSellingItems.get(0).getName());
+        assertEquals(apples.getName(), topSellingItems.get(1).getName());
+        assertEquals( cakes.getName(), topSellingItems.get(2).getName());
     }
 
 }
