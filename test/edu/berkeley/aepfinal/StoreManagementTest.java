@@ -2,6 +2,8 @@ package edu.berkeley.aepfinal;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class StoreManagementTest {
@@ -60,6 +62,21 @@ public class StoreManagementTest {
         stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 3);
         stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 7);
         assertEquals(70.0, stores.getStores().get("Safeway").getRevenue(),0.01);
+    }
+
+    @Test
+    public void testGetTopSellingItems() {
+        stores.addItemToStore("Safeway", cakes, 5);
+        stores.addItemToStore("Safeway", apples, 10);
+        // Make two sales of item1 and one sale of item2
+        stores.purchaseItem("Safeway", "Michael", "Scott", apples, 1);
+        stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 1);
+        stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 2);
+
+        // Get the top selling items and check that they are in the correct order
+        List<Item> topSellingItems = stores.getTopSellingItemInStore("Safeway", 2);
+        assertEquals(apples, topSellingItems.get(0));
+        assertEquals(cakes, topSellingItems.get(1));
     }
 
 }

@@ -64,4 +64,10 @@ public class StoreManagement {
         }
         store.purchaseItem(customer, item, purchaseQ);
     }
+
+    public List<Item> getTopSellingItemInStore(String storeName, int n){
+        Store store = stores.get(storeName);
+        return store.getTopSellingItems(n);
+    }
+
 }
