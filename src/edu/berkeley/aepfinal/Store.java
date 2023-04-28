@@ -25,6 +25,11 @@ public class Store {
         }
     }
 
+    public Item getItem(Item item){
+        return items.containsKey(item)? item:
+                null;
+    }
+
     public int getStock(Item item) {
         return items.getOrDefault(item, 0);
     }
@@ -40,4 +45,16 @@ public class Store {
             items.put(item, newStock);
         }
     }
+
+    public void purchaseItem(Customer customer, Item item, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+        if (!items.containsKey(item)) {
+            throw new IllegalArgumentException("Item not found in store inventory");
+        }
+        items.put(item, items.get(item) - quantity);
+        customer.addItemToCart(item, quantity);
+    }
+
 }

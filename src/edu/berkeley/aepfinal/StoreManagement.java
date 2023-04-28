@@ -52,4 +52,16 @@ public class StoreManagement {
         }
         store.addStock(item, newStock);
     }
+
+    public void purchaseItem(String storeName, String customerName, String customerLastName, Item item, int purchaseQ) {
+        Store store = stores.get(storeName);
+        if (store == null) {
+            throw new IllegalArgumentException("Store not found: " + storeName);
+        }
+        Customer customer = new Customer(customerName, customerLastName);
+        if (store.getStock(item) < purchaseQ) {
+            throw new IllegalArgumentException("Not enough stock available for item: ");
+        }
+        store.purchaseItem(customer, item, purchaseQ);
+    }
 }

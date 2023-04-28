@@ -12,6 +12,7 @@ public class StoreManagementTest {
     static Store Safeway = new Store("Safeway", "Albany");
     static Item eggs = new Item("Eggs", 10.0);
     static Item apples = new Item("Apples", 5.0);
+    static Item cakes = new Item("Cakes", 7.0);
 
     static {
         stores.addStore("Costco", Costco);
@@ -43,5 +44,13 @@ public class StoreManagementTest {
         stores.updateStockInStore("Whole Foods", eggs, 10);
         assertEquals(15, stores.getStores().get("Whole Foods").getStock(eggs));
     }
+
+    @Test
+    public void safewayShouldHaveThreeCakesAfterPurchase() {
+        stores.addItemToStore("Safeway", cakes, 5);
+        stores.purchaseItem("Safeway", "Gordon", "Ramsy", cakes, 2);
+        assertEquals(3, stores.storeContainsItem("Safeway", cakes));
+    }
+
 
 }
