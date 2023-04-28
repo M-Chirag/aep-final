@@ -10,6 +10,7 @@ public class StoreManagementTest {
     static Store Costco = new Store("Costco", "Berkeley");
     static Store WholeFoods = new Store("Whole Foods", "Alameda");
     static Store Safeway = new Store("Safeway", "Albany");
+    static Item bread = new Item("Bread", 8.0);
     static Item eggs = new Item("Eggs", 10.0);
     static Item apples = new Item("Apples", 5.0);
     static Item cakes = new Item("Cakes", 7.0);
@@ -53,13 +54,12 @@ public class StoreManagementTest {
     }
 
     @Test
-    public void safewayTotalRevenueShouldBe56() {
+    public void safewayTotalRevenueShouldBe70() {
         stores.addItemToStore("Safeway", cakes, 5);
         stores.addItemToStore("Safeway", apples, 10);
         stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 3);
         stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 7);
-        assertEquals(56.0, stores.getStores().get("Safeway").getRevenue(),0.01);
+        assertEquals(70.0, stores.getStores().get("Safeway").getRevenue(),0.01);
     }
-
 
 }
