@@ -66,7 +66,7 @@ public class Store {
         customer.addItemToCart(item, quantity);
     }
 
-    public double getRevenue() {
+    public double calculateRevenue() {
         double revenue = 0.0;
         for (Map<Item, Integer> sales : this.sales.values()) {
             for (Map.Entry<Item, Integer> entry : sales.entrySet()) {
@@ -78,7 +78,7 @@ public class Store {
         return revenue;
     }
 
-    public List<Item> getTopSellingItems(int n) {
+    public List<Item> getTopSellingItems(int n, boolean byRevenue) {
         List<Item> itemsSold = new ArrayList<>();
         for (Map<Item, Integer> sales : this.sales.values()) {
             for (Map.Entry<Item, Integer> entry : sales.entrySet()) {
@@ -89,13 +89,25 @@ public class Store {
                 }
             }
         }
-        Map<Item, Integer> itemSaleCounts = new HashMap<>();
-        for (Item item : itemsSold) {
-            itemSaleCounts.put(item, itemSaleCounts.getOrDefault(item, 0) + 1);
-        }
-        List<Item> topSellingItems = new ArrayList<>(itemSaleCounts.keySet());
-        topSellingItems.sort((item1, item2) -> itemSaleCounts.get(item2).compareTo(itemSaleCounts.get(item1)));
 
-        return topSellingItems.subList(0, Math.min(n, topSellingItems.size()));
+        if (byRevenue) {
+            Map<Item, Double> itemRevenues = new HashMap<>();
+            for (Item item : itemsSold) {
+                double revenue = item.getPrice() * (itemRevenues.getOrDefault(item, 0.0) + 1);
+                itemRevenues.put(item, revenue);
+            }
+            List<Item> topSellingItems = new ArrayList<>(itemRevenues.keySet());
+            topSellingItems.sort((item1, item2) -> itemRevenues.get(item2).compareTo(itemRevenues.get(item1)));
+            return topSellingItems.subList(0, Math.min(n, topSellingItems.size()));
+        } else {
+            Map<Item, Integer> itemSaleCounts = new HashMap<>();
+            for (Item item : itemsSold) {
+                itemSaleCounts.put(item, itemSaleCounts.getOrDefault(item, 0) + 1);
+            }
+            List<Item> topSellingItems = new ArrayList<>(itemSaleCounts.keySet());
+            topSellingItems.sort((item1, item2) -> itemSaleCounts.get(item2).compareTo(itemSaleCounts.get(item1)));
+            return topSellingItems.subList(0, Math.min(n, topSellingItems.size()));
+        }
     }
+
 }
