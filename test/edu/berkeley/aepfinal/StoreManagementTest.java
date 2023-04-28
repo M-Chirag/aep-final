@@ -78,36 +78,34 @@ public class StoreManagementTest {
 
     @Test
     public void topSellingItemsInSafewayShouldBeCakesAndApples() {
-        // Get the top selling items and check that they are in the correct order
         List<Item> topSellingItems = stores.getTopSellingItemInStore("Safeway", 2, false);
-        assertEquals(apples.getName(), topSellingItems.get(0).getName());
-        assertEquals(cakes.getName(), topSellingItems.get(1).getName());
+        assertEquals(apples, topSellingItems.get(0));
+        assertEquals(cakes, topSellingItems.get(1));
     }
 
     @Test
     public void topSellingItemsInSafewayByRevenueShouldBe() {
-        // Get the top selling items and check that they are in the correct order
         List<Item> topSellingItems = stores.getTopSellingItemInStore("Safeway", 2, true);
-        assertEquals(apples.getName(), topSellingItems.get(0).getName());
-        assertEquals(cakes.getName(), topSellingItems.get(1).getName());
+        assertEquals(apples, topSellingItems.get(0));
+        assertEquals(cakes, topSellingItems.get(1));
     }
 
     @Test
     public void testGetTopSellingItemsAmongAllStores() {
         // Geting the top selling items among all stores and check that they are in the correct order
         List<Item> topSellingItems = stores.getTopSellingItemsAcrossStores(3, false);
-        assertEquals(apples.getName(), topSellingItems.get(0).getName());
-        assertEquals(bread.getName(), topSellingItems.get(1).getName());
-        assertEquals( cakes.getName(), topSellingItems.get(2).getName());
+        assertEquals(apples, topSellingItems.get(0));
+        assertEquals(bread, topSellingItems.get(1));
+        assertEquals( cakes, topSellingItems.get(2));
     }
 
     @Test
     public void testTopThreeItemsAcrossAllStoresByRevenue() {
         // Geting the top selling items among all stores and check that they are in the correct order
         List<Item> topSellingItemsByRevenue = stores.getTopSellingItemsAcrossStores(3, true);
-        assertEquals(bread.getName(), topSellingItemsByRevenue.get(0).getName());
-        assertEquals(apples.getName(), topSellingItemsByRevenue.get(1).getName());
-        assertEquals( eggs.getName(), topSellingItemsByRevenue.get(2).getName());
+        assertEquals(bread, topSellingItemsByRevenue.get(0));
+        assertEquals(apples, topSellingItemsByRevenue.get(1));
+        assertEquals( eggs, topSellingItemsByRevenue.get(2));
     }
 
 }

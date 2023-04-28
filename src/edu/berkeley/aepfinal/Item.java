@@ -8,12 +8,8 @@ public class Item {
     private String name;
     private double price;
 
-    public double getPrice() {
+    double getPrice() {
         return price;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Item(String name, double price) {
@@ -33,6 +29,5 @@ public class Item {
     public int hashCode() {
         return Objects.hash(name);
     }
-
 
 }
