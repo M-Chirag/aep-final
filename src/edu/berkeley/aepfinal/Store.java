@@ -20,7 +20,7 @@ public class Store {
         this.sales = new HashMap<>();
     }
 
-    public void addItem(Item item, int stock) {
+    void addItem(Item item, int stock) {
         if (this.stock.containsKey(item)) {
             this.stock.put(item, this.stock.get(item) + stock);
         } else {
@@ -28,24 +28,20 @@ public class Store {
         }
     }
 
-    public Map<Customer, Map<Item, Integer>> getSales() {
+    Map<Customer, Map<Item, Integer>> getSales() {
         return sales;
     }
 
-    public Item getItem(Item item){
-        return stock.containsKey(item)? item:
-                null;
-    }
 
     public int getStock(Item item) {
         return stock.getOrDefault(item, 0);
     }
 
-    public void removeItem(Item item) {
+    void removeItem(Item item) {
         stock.remove(item);
     }
 
-    public void addStock(Item item, int newStock) {
+    void addStock(Item item, int newStock) {
         if (stock.containsKey(item)) {
             stock.put(item, stock.get(item) + newStock);
         } else {
@@ -53,7 +49,7 @@ public class Store {
         }
     }
 
-    public void purchaseItem(Customer customer, Item item, int quantity) {
+    void purchaseItem(Customer customer, Item item, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
@@ -66,7 +62,7 @@ public class Store {
         customer.addItemToCart(item, quantity);
     }
 
-    public double calculateRevenue() {
+    double calculateRevenue() {
         double revenue = 0.0;
         for (Map<Item, Integer> sales : this.sales.values()) {
             for (Map.Entry<Item, Integer> entry : sales.entrySet()) {
@@ -78,7 +74,7 @@ public class Store {
         return revenue;
     }
 
-    public List<Item> getTopSellingItems(int n, boolean byRevenue) {
+    List<Item> getTopSellingItems(int n, boolean byRevenue) {
         List<Item> itemsSold = new ArrayList<>();
         for (Map<Item, Integer> sales : this.sales.values()) {
             for (Map.Entry<Item, Integer> entry : sales.entrySet()) {
