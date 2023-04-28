@@ -54,7 +54,12 @@ public class Store {
             throw new IllegalArgumentException("Item not found in store inventory");
         }
         items.put(item, items.get(item) - quantity);
+        double price = item.getPrice() * quantity;
+        revenue += price;
         customer.addItemToCart(item, quantity);
     }
 
+    public double getRevenue() {
+        return revenue;
+    }
 }

@@ -52,5 +52,14 @@ public class StoreManagementTest {
         assertEquals(3, stores.storeContainsItem("Safeway", cakes));
     }
 
+    @Test
+    public void safewayTotalRevenueShouldBe56() {
+        stores.addItemToStore("Safeway", cakes, 5);
+        stores.addItemToStore("Safeway", apples, 10);
+        stores.purchaseItem("Safeway", "Michael", "Scott", cakes, 3);
+        stores.purchaseItem("Safeway", "Jim", "Halpert", apples, 7);
+        assertEquals(56.0, stores.getStores().get("Safeway").getRevenue(),0.01);
+    }
+
 
 }
